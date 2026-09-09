@@ -1,0 +1,36 @@
+#!/bin/bash
+set -e
+
+mkdir -p /var/log/student-management-system
+chmod 755 /var/log/student-management-system
+
+echo ""
+echo "Student Management System installed successfully!"
+echo ""
+echo "=== DATABASE SETUP REQUIRED ==="
+echo ""
+echo "1. Create PostgreSQL database:"
+echo "   sudo -u postgres createuser student_admin -P"
+echo "   sudo -u postgres createdb student_db -O student_admin"
+echo ""
+echo "2. Run migrations:"
+echo "   psql -U student_admin -d student_db -f /usr/share/student-management-system/migrations/001_initial_schema.sql"
+echo "   psql -U student_admin -d student_db -f /usr/share/student-management-system/migrations/002_schema_fixes.sql"
+echo ""
+echo "3. Load seed data (optional):"
+echo "   psql -U student_admin -d student_db -f /usr/share/student-management-system/seed/001_seed_data.sql"
+echo ""
+echo "4. Set environment variables before running:"
+echo "   export DB_HOST=localhost"
+echo "   export DB_PORT=5432"
+echo "   export DB_NAME=student_db"
+echo "   export DB_USER=student_admin"
+echo "   export DB_PASSWORD=your_password"
+echo ""
+echo "5. Run the application:"
+echo "   student-management-system"
+echo ""
+echo "Default admin credentials (if seed loaded):"
+echo "   Email:    admin@university.edu"
+echo "   Password: Admin@123456"
+echo ""
