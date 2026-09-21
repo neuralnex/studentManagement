@@ -13,6 +13,7 @@
 #include "DashboardPage.hpp"
 #include "StudentsPage.hpp"
 #include "CoursesPage.hpp"
+#include "EnrollmentsPage.hpp"
 
 namespace sms::app::gui {
 
@@ -182,15 +183,15 @@ void MainWindow::setupPages() {
         m_coursesPage = new CoursesPage(m_courses.get());
         m_stack->addWidget(m_coursesPage);
 
-        // Placeholder pages for features implemented in other files
-        m_enrollmentsPage = makePlaceholderPage(QStringLiteral("Enrollments"));
+        // Real Enrollments page
+        m_enrollmentsPage = new EnrollmentsPage(m_enrollments.get());
         m_stack->addWidget(m_enrollmentsPage);
 
         m_reportsPage = makePlaceholderPage(QStringLiteral("Reports"));
         m_stack->addWidget(m_reportsPage);
     } else {
         // Student-role pages
-        m_enrollmentsPage = makePlaceholderPage(QStringLiteral("My Enrollments"));
+        m_enrollmentsPage = new EnrollmentsPage(m_enrollments.get());
         m_stack->addWidget(m_enrollmentsPage);
 
         m_reportsPage = makePlaceholderPage(QStringLiteral("My Transcript"));

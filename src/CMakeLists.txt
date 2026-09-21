@@ -25,6 +25,7 @@ add_library(sms_core STATIC
     app/gui/DashboardPage.cpp
     app/gui/StudentsPage.cpp
     app/gui/CoursesPage.cpp
+    app/gui/EnrollmentsPage.cpp
     app/gui/MainWindow.cpp
     app/gui/Application.cpp
 )
@@ -61,3 +62,15 @@ add_custom_command(TARGET student_management_system POST_BUILD
             ${CMAKE_BINARY_DIR}/sms_app
     COMMENT "Creating convenience symlink build/sms_app"
 )
+
+if(NOT WIN32)
+    add_custom_command(TARGET student_management_system POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E create_symlink
+                $<TARGET_FILE:student_management_system>
+                ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/student_management_system.exe
+        COMMAND ${CMAKE_COMMAND} -E create_symlink
+                $<TARGET_FILE:student_management_system>
+                ${CMAKE_BINARY_DIR}/student_management_system.exe
+        COMMENT "Creating student_management_system.exe symlinks"
+    )
+endif()

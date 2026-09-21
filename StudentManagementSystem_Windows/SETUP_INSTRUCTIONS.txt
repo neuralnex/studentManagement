@@ -1,0 +1,98 @@
+================================================================================
+          ENTERPRISE STUDENT DATABASE MANAGEMENT SYSTEM (C++20 / Qt5)
+                      WINDOWS SETUP & RUN INSTRUCTIONS
+================================================================================
+
+--------------------------------------------------------------------------------
+1. QUICK START (RUN IN 10 SECONDS VIA WSL / WSLg)
+--------------------------------------------------------------------------------
+This package contains the pre-compiled executable `student_management_system.exe`
+configured to run directly on Windows 10/11 using WSLg (Windows Subsystem for Linux
+GUI), which renders the Qt5 interface as a native Windows desktop app.
+
+Steps:
+1. Extract this entire zip file to a folder of your choice (e.g. C:\SMS).
+2. Double-click the file:
+      run_sms_windows.bat
+3. The graphical application will open automatically!
+4. Log in using the credentials below.
+
+NOTE: If you do not have WSL installed yet:
+  a. Open Windows PowerShell as Administrator.
+  b. Run:  wsl --install
+  c. Restart your PC when prompted.
+  d. Double-click run_sms_windows.bat again.
+
+
+--------------------------------------------------------------------------------
+2. DEFAULT LOGIN CREDENTIALS
+--------------------------------------------------------------------------------
+Use any of the following accounts to sign in:
+
+  ROLE            EMAIL                      PASSWORD
+  -------------------------------------------------------------
+  Administrator   admin@university.edu       Admin@123
+  Registrar       registrar@university.edu   Registrar@123
+  Lecturer        lecturer@university.edu    Lecturer@123
+  Student         student@university.edu     Student@123
+
+
+--------------------------------------------------------------------------------
+3. DATABASE CONFIGURATION
+--------------------------------------------------------------------------------
+The file `.env` is already configured with an active Neon Cloud PostgreSQL
+database containing all tables, constraints, and demo data.
+No local database setup is required to run the app!
+
+If you wish to use a local PostgreSQL installation instead:
+1. Create a database `student_db` and user in PostgreSQL.
+2. Run the SQL scripts located in the `sql/` folder:
+     sql/migrations/001_initial_schema.sql
+     sql/migrations/002_schema_fixes.sql
+     sql/seed/001_seed_data.sql
+3. Open `.env` in Notepad and update the DB_HOST, DB_USER, DB_PASSWORD values.
+
+
+--------------------------------------------------------------------------------
+4. HOW TO BUILD NATIVE WINDOWS BINARY (VISUAL STUDIO 2022)
+--------------------------------------------------------------------------------
+If you want to compile a native Windows binary using MSVC:
+1. Install Visual Studio 2022 with "Desktop development with C++".
+2. Install dependencies using Microsoft vcpkg:
+      git clone https://github.com/microsoft/vcpkg.git C:\vcpkg
+      cd C:\vcpkg && .\bootstrap-vcpkg.bat
+      vcpkg install libpqxx:x64-windows spdlog:x64-windows nlohmann-json:x64-windows openssl:x64-windows qt5-base:x64-windows
+3. Double click:
+      build_windows_msvc.bat
+   or run in Command Prompt:
+      cmake -B build_win -S . -DCMAKE_TOOLCHAIN_FILE=C:\vcpkg\scripts\buildsystems\vcpkg.cmake
+      cmake --build build_win --config Release
+
+
+--------------------------------------------------------------------------------
+5. APPLICATION FEATURES & NAVIGATION
+--------------------------------------------------------------------------------
+- Dashboard: Overview of total students, active students, courses, and pending grades.
+- Students: Search, filter, add new students, edit status, emergency contact info.
+- Courses: Full course catalog, credit units, capacity tracking.
+- Enrollments (5 Tabs):
+    * Tab 1: Enroll a student into a course for a semester.
+    * Tab 2: View and manage a student's course enrollments (Approve, Drop, Withdraw, Post Grade).
+    * Tab 3: View course enrollment lists.
+    * Tab 4: Pending grades queue for faculty grading.
+    * Tab 5: Academic transcript and cumulative GPA calculation.
+
+
+--------------------------------------------------------------------------------
+6. TROUBLESHOOTING
+--------------------------------------------------------------------------------
+- If the app shows "Database connection pool is unhealthy":
+  Ensure you are connected to the internet so the app can reach the Neon Cloud DB.
+- If WSL displays an error about missing libraries:
+  Open PowerShell and run:
+     wsl sudo apt update
+     wsl sudo apt install -y qtbase5-dev libpqxx-dev libspdlog-dev
+- Runtime log files are stored in:
+     logs/student_management.log
+
+================================================================================

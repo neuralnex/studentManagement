@@ -86,10 +86,15 @@ ALTER TABLE enrollments
     ADD COLUMN IF NOT EXISTS prerequisites_met BOOLEAN DEFAULT TRUE;
 
 -- enrolled_date: the calendar date the enrolment record was created
---   (the original schema had enrollment_date NOT NULL; we keep that column and
---    add enrolled_date as a nullable alias used by the C++ entity's enrolledDate())
+--   (the original schema had enrollment_date NOT NULL; we drop the NOT NULL constraint,
+--    set default to CURRENT_DATE, and add enrolled_date)
 ALTER TABLE enrollments
-    ADD COLUMN IF NOT EXISTS enrolled_date DATE;
+    ALTER COLUMN enrollment_date DROP NOT NULL;
+ALTER TABLE enrollments
+    ALTER COLUMN enrollment_date SET DEFAULT CURRENT_DATE;
+
+ALTER TABLE enrollments
+    ADD COLUMN IF NOT EXISTS enrolled_date DATE DEFAULT CURRENT_DATE;
 
 -- Backfill enrolled_date from the existing enrollment_date where NULL
 UPDATE enrollments

@@ -23,10 +23,6 @@ Student PostgreSQLStudentRepository::mapRowToStudent(const pqxx::row_ref& row) {
     student.setEmail(row["email"].as<std::string>(""));
     student.setPhoneNumber(row["phone_number"].as<std::string>(""));
 
-    if (!row["date_of_birth"].is_null()) {
-        // Parse date if needed (for now skip time component)
-    }
-
     student.setStatus(stringToStatus(row["status"].as<std::string>()));
     student.setAcademicStanding(stringToStanding(row["academic_standing"].as<std::string>("GOOD")));
 
